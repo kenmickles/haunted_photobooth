@@ -1,0 +1,63 @@
+body {
+	font: 10pt arial, sans-serif;
+	color: #eee;
+	background-color: #333;
+}
+
+a {
+	color: #aaa;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+.clr {
+	clear: both;
+	display: block;
+}
+
+#flash {
+	display: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #fff;
+}
+
+#photos {
+	width: 250px;
+}
+
+#photos img {
+	width: 250px;
+	height: 188px;
+	border: 10px solid #fff;
+	float: left;
+}
+
+#countdown {
+	display: none;
+	position: absolute;
+	left: 25%;
+	top: 5%;
+	text-align: center;
+	width: 50%;
+}
+
+#countdown h1 {
+	font-size: 25em;
+	margin: 0;
+	padding: 0;
+}
+
+#countdown h3 {
+	font-size: 2em;
+	margin: 0;
+	padding: 0;
+	color: #aaa;
+}
