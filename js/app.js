@@ -1,6 +1,6 @@
 App = {
 	socket: null,
-	host: "ws://192.168.1.109:8080/~ken/haunted_photobooth/server.php",
+	host: "ws://127.0.0.1:8080/~ken/haunted_photobooth/server.php",
 	blank_photo: "http://img.37i.net/pixel_ffffff_0.png",
 	
 	take_photo: function(count) {

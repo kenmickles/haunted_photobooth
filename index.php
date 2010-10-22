@@ -3,9 +3,9 @@
 	<head>
 		<meta http-equiv="content-type" content="text/html;charset=utf-8"/>
 		<title>The Haunted Photobooth!</title>
-		<link rel="stylesheet" type="text/css" href="style.css" />
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-		<script type="text/javascript" src="app.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+		<script type="text/javascript" src="js/app.js"></script>
 		<script type="text/javascript">
 			App.init();
 		</script>
