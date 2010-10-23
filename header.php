@@ -1,5 +1,6 @@
 <?php
 
+error_reporting(E_ALL);
 date_default_timezone_set('America/New_York');
 
 define('APP_ROOT', realpath(dirname(__FILE__)).'/');
