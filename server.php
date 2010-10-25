@@ -26,7 +26,10 @@ function capture($user, $count, $server) {
 		$photo_file = $base_name.'_'.$i.'.jpg';
 		system($capture_cmd.' '.$photo_path.$photo_file);
 		
-		// TODO: photoboothify and spookify photos
+		// 1 in 3 chance of getting a ghost
+		if ( rand(1, 3) == 3 ) {
+			spookify($photo_path.$photo_file);
+		}
 		
 		$server->send($user->socket, 'photos/'.$photo_file);
 		
@@ -45,6 +48,56 @@ function capture($user, $count, $server) {
 			print_r($result);
 		}
 	}
+}
+
+function spookify($file) {
+	// we'll resize the photo to match these
+	$resized_width = 640;
+	$resized_height = 480;
+	
+	// get photo size
+	list($full_width, $full_height) = getimagesize($file);
+	
+	// create gd image resource for this photo
+	$image = imagecreatefromjpeg($file);
+	$resized_image = imagecreatetruecolor($resized_width, $resized_height);
+	
+	// first we resize the original image
+	imagecopyresampled($resized_image, $image, 0, 0, 0, 0, $resized_width, $resized_height, $full_width, $full_height);
+	
+	// get a random ghost image
+	$ghost_file = get_random_ghost();
+	
+	// merge ghost into the main photo
+	list($ghost_width, $ghost_height) = getimagesize($ghost_file);
+	$ghost = imagecreatefrompng($ghost_file);
+	imagecopyresampled($resized_image, $ghost, 0, 0, 0, 0, $resized_width, $resized_height, $ghost_width, $ghost_height);
+	
+	// output and save image data
+	ob_start();
+	imagejpeg($resized_image);
+	imagedestroy($resized_image);
+	$image_data = ob_get_contents();
+	ob_end_clean();
+	
+	// write image to file
+	file_put_contents($file, $image_data);
+}
+
+function get_random_ghost() {
+	// this is where the ghosts lurk
+	$ghost_dir = 'images/ghosts/';
+	
+	// build a list of available ghosts
+	$ghosts = array();
+	foreach ( scandir($ghost_dir) as $file ) {
+		if ( preg_match('/\.png$/', $file) ) {
+			$ghosts[] = $ghost_dir.$file;
+		}
+	}
+	
+	// pick a random ghost file
+	return $ghosts[array_rand($ghosts)];
 }
 
 function combine_photos($files) {
