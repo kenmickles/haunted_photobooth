@@ -2,6 +2,10 @@ body {
 	font: 10pt arial, sans-serif;
 	color: #eee;
 	background-color: #333;
+	margin: 0;
+	padding: 0;
+	background-image: url(../images/bg.png);
+/*	background-image: url(http://kenmickles.com/halloween_playlist/images/skull_bg.jpg);*/
 }
 
 a {
@@ -14,9 +18,43 @@ a:hover {
 	text-decoration: underline;
 }
 
+h2#status {
+	color: #d7cc17;
+}
+
 .clr {
 	clear: both;
 	display: block;
+}
+
+#wrapper {
+/*	width: 1000px;*/
+}
+
+#photo-strips img {
+	width: 150px;
+	-webkit-box-shadow: 1px 1px 20px #000;
+}
+
+#main {
+	color: #eee;
+	background-color: #000;
+	position: relative;
+	padding: 1em;
+	text-align: center;
+	-webkit-box-shadow: 1px 1px 20px #000;	
+}
+
+#countdown {
+	color:#d7cc17;
+	font-size:65px;
+	font-weight:bold;
+	left:0;
+	position:absolute;
+	text-align:center;
+	top:152px;
+	width:100%;
+	display:none;
 }
 
 #flash {
@@ -27,10 +65,17 @@ a:hover {
 	right: 0;
 	bottom: 0;
 	background-color: #fff;
+	z-index: 1985;
 }
 
 #photos {
 	width: 250px;
+	position: absolute;
+	top: 235px;
+	left: 10%;
+	z-index: 1984;
+	-webkit-transform: rotate(-4deg);
+	-webkit-box-shadow: 1px 1px 20px #000;
 }
 
 #photos img {
@@ -38,15 +83,6 @@ a:hover {
 	height: 188px;
 	border: 10px solid #fff;
 	float: left;
-}
-
-#countdown {
-	display: none;
-	position: absolute;
-	left: 25%;
-	top: 5%;
-	text-align: center;
-	width: 50%;
 }
 
 #countdown h1 {

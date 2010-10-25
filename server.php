@@ -37,7 +37,8 @@ function capture($user, $count, $server) {
 	if ( $combined_file = combine_photos($files) ) {
 		$result = upload_photo($combined_file);
 		if ( isset($result['id']) ) {
-			echo "Uploaded photo #{$result['id']}\n";
+			$server->send($user->socket, 'photos/'.basename($combined_file));
+			echo "Uploaded photo: http://www.facebook.com/photo.php?fbid={$result['id']}\n";
 		}
 		else {
 			echo "Something went wrong:\n";
@@ -85,7 +86,7 @@ function combine_photos($files) {
 	ob_end_clean();
 	
 	// write image to file
-	$tmp_file = PHOTO_PATH.'combined_'.md5(implode(',', $files)).'.jpg';
+	$tmp_file = PHOTO_PATH.'combined_'.time().'.jpg';
 	file_put_contents($tmp_file, $image_data);
 	
 	// and return the file path
@@ -102,7 +103,7 @@ function upload_photo($file) {
 	$url = 'https://graph.facebook.com/me/photos';
 	
 	$params = array(
-		'message' => "Taken on ".date('F jS, Y')." at ".date('g:ia')." in the Haunted Photo Booth",
+		'message' => "Taken by the Haunted Photo Booth on ".date('F jS, Y')." at ".date('g:ia'),
 		'source' => '@'.realpath($file),
 		'access_token' => $access_token,
 	);
