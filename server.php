@@ -33,42 +33,62 @@ function capture($user, $count, $server) {
 		$files[] = $photo_path.$photo_file;
 	}
 	
-	// TODO: combine photos into one file and upload_photo
+	// combine photos into one file and upload
 	if ( $combined_file = combine_photos($files) ) {
-		print_r(upload_photo($combined_file));
+		$result = upload_photo($combined_file);
+		if ( isset($result['id']) ) {
+			echo "Uploaded photo #{$result['id']}\n";
+		}
+		else {
+			echo "Something went wrong:\n";
+			print_r($result);
+		}
 	}
 }
 
 function combine_photos($files) {
-	// resize each photo to 500x375
+	// we'll resize the photo to match these
+	$resized_width = 640;
+	$resized_height = 480;
+	$offset = 20;
 	
-	$width = '516';
-	$height = count($files) * 391;
+	// calculate image size
+	$image_width = $resized_width + ($offset*2);
+	$image_height = (count($files) * ($resized_height + $offset)) + $offset;
 	
-	$image = imagecreatetruecolor($width, $height);
+	// create image
+	$image = imagecreatetruecolor($image_width, $image_height);
+	
+	// fill it with a white background
 	$white = imagecolorallocate($image, 255, 255, 255);
-	imagefilledrectangle($image, 0, 0, $width, $height, $white);
-	$text_color = imagecolorallocate($image, 233, 14, 91);
-	imagestring($image, 1, 5, 5,  "A Simple Text String", $text_color);
+	imagefilledrectangle($image, 0, 0, $image_width, $image_height, $white);
 	
-	//imagecopymerge ( resource $dst_im , resource $src_im , int $dst_x , int $dst_y , int $src_x , int $src_y , int $src_w , int $src_h , int $pct )
-	
+	// add each photo to the image
 	foreach ( $files as $i => $file ) {
+		// get photo size
+		list($full_width, $full_height) = getimagesize($file);
+		
+		// create gd image resource for this photo
 		$photo = imagecreatefromjpeg($file);
-		imagecopymerge($image, $photo, 8, (($i*375) + 8), 0, 0, )
+		
+		// resize the photo and copy it into the main image
+		//imagecopyresampled ( resource $dst_image , resource $src_image , int $dst_x , int $dst_y , int $src_x , int $src_y , int $dst_w , int $dst_h , int $src_w , int $src_h )
+		$dst_y = ($i * $resized_height) + (($i+1) * $offset);
+		imagecopyresampled($image, $photo, $offset, $dst_y, 0, 0, $resized_width, $resized_height, $full_width, $full_height);
 	}
 	
+	// output and save image data
 	ob_start();
 	imagejpeg($image);
 	imagedestroy($image);
 	$image_data = ob_get_contents();
 	ob_end_clean();
 	
+	// write image to file
 	$tmp_file = PHOTO_PATH.'combined_'.md5(implode(',', $files)).'.jpg';
-	echo $tmp_file."\n";
-	
 	file_put_contents($tmp_file, $image_data);
 	
+	// and return the file path
 	return $tmp_file;
 }
 
@@ -82,7 +102,7 @@ function upload_photo($file) {
 	$url = 'https://graph.facebook.com/me/photos';
 	
 	$params = array(
-		'message' => "taken at ".date("g:ia")." in the haunted photo booth",
+		'message' => "Taken on ".date('F jS, Y')." at ".date('g:ia')." in the Haunted Photo Booth",
 		'source' => '@'.realpath($file),
 		'access_token' => $access_token,
 	);
