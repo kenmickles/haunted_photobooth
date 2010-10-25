@@ -3,10 +3,13 @@ App = {
 	host: "ws://127.0.0.1:8080/~ken/haunted_photobooth/server.php",
 	blank_photo: "http://img.37i.net/pixel_ffffff_0.png",
 	photos_to_take: 3,
-	photos_received: 0,
 	timer: 3,
 	
 	countdown: function(){
+		if ( App.timer == 3 ) {
+			$('#photo-strips').hide();
+		}
+		
 		if ( App.timer > 0 ) {	
 			$('#status').text(App.timer);
 			setTimeout(function(){
@@ -60,28 +63,27 @@ App = {
 							// add new photo strip the the pile	
 							var d = Math.random()*8+1;
 							var $html = $('<div class="brick" style="-webkit-transform:rotate(-' + d + 'deg)"><img src="' + photo + '" alt="" /></div>');
-							$('#photo-strips').append($html).masonry({appendedContent: $html});
 														
 							// show success message
 							$('#status').text("Alright! Your photos are on Facebook.");
 							
 							// wait a couple seconds and clean up
 							setTimeout(function(){
-								App.photos_received = 0;
 								App.timer = 3;
 								
 								var $status = $('#status');
 								$status.text($status.attr('title'));
-																
-								$('#photos').fadeOut('normal', function(){
+																								
+								$('#photos').fadeOut('fast', function(){
 									$('#photos img').remove();							
+									$('#photo-strips').fadeIn();
+									$('#photo-strips').append($html).masonry({appendedContent: $html});															
 								});
 							}, 4000);					
 							
 							return;	
 						}
 						
-						App.photos_received = App.photos_received + 1;
 						$('#photos').prepend('<img src="' + photo + '" alt="" />');
 
 						if ( $('#photos img').length == App.photos_to_take ) {
@@ -89,9 +91,9 @@ App = {
 						}
 					}
 					else {
-						$('#flash').fadeIn(1000, function(){
+						$('#flash').fadeIn(800, function(){
 							$('#photos').show();
-							$(this).fadeOut(2000);
+							$(this).fadeOut(1800);
 						});
 					}
 				};

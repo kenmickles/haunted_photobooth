@@ -18,6 +18,11 @@ a:hover {
 	text-decoration: underline;
 }
 
+h2 {
+	font-family: 'IM Fell English', arial, sans-serif;
+	font-size: 2em;
+}
+
 h2#status {
 	color: #d7cc17;
 }
@@ -42,6 +47,7 @@ h2#status {
 	position: relative;
 	padding: 1em;
 	text-align: center;
+	height: 385px;
 	-webkit-box-shadow: 1px 1px 20px #000;	
 }
 
@@ -75,7 +81,7 @@ h2#status {
 	left: 10%;
 	z-index: 1984;
 	-webkit-transform: rotate(-4deg);
-	-webkit-box-shadow: 1px 1px 20px #000;
+	-webkit-box-shadow: 6px 6px 24px #000;
 }
 
 #photos img {

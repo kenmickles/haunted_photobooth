@@ -21,6 +21,7 @@ $strips = array_slice($strips, 0, 50);
 		<meta http-equiv="content-type" content="text/html;charset=utf-8"/>
 		<title>The Haunted Photobooth!</title>
 		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<link href='http://fonts.googleapis.com/css?family=IM+Fell+English&amp;subset=latin' rel='stylesheet' type='text/css'>
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
 		<script type="text/javascript" src="js/jquery.masonry.min.js"></script>
 		<script type="text/javascript" src="js/app.js"></script>
