@@ -35,7 +35,6 @@ $strips = array_slice($strips, 0, 50);
 				<h2>Welcome to the Haunted Photo Booth!</h2>
 				<a class="take-photo" href="#none"><img src="images/camera_crossbones.png" alt="" /></a>
 				<h2 id="status" title="Press any number to begin.">Press any number to begin.</h2>
-				<div id="countdown">3</div>
 				<div id="photos"><div class="clr"></div></div>
 			</div>			
 			<div id="photo-strips">

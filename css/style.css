@@ -5,6 +5,7 @@ body {
 	margin: 0;
 	padding: 0;
 	background-image: url(../images/bg.png);
+	overflow: hidden;
 /*	background-image: url(http://kenmickles.com/halloween_playlist/images/skull_bg.jpg);*/
 }
 

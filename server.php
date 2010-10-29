@@ -20,15 +20,19 @@ function capture($user, $count, $server) {
 	$base_name = time();
 	$files = array();
 	
+	// has this set been spookified?
+	$spookified = FALSE;
+	
 	for ( $i = 1; $i <= $count; $i++ ) {
 		$server->send($user->socket, 'flash');
 		
 		$photo_file = $base_name.'_'.$i.'.jpg';
 		system($capture_cmd.' '.$photo_path.$photo_file);
 		
-		// 1 in 3 chance of getting a ghost
-		if ( rand(1, 3) == 3 ) {
+		// 1 in 4 chance of getting a ghost
+		if ( !$spookified && rand(1, 4) == 3 ) {
 			spookify($photo_path.$photo_file);
+			$spookified = TRUE;
 		}
 		
 		$server->send($user->socket, 'photos/'.$photo_file);
@@ -39,10 +43,15 @@ function capture($user, $count, $server) {
 	// combine photos into one file and upload
 	if ( $combined_file = combine_photos($files) ) {
 		$result = upload_photo($combined_file);
+		
+		// send the combined file back to the client regardless of success
+		$server->send($user->socket, 'photos/'.basename($combined_file));	
+		
+		// it worked
 		if ( isset($result['id']) ) {
-			$server->send($user->socket, 'photos/'.basename($combined_file));
 			echo "Uploaded photo: http://www.facebook.com/photo.php?fbid={$result['id']}\n";
 		}
+		// it didn't work. this always happens on strips of 5 or more photos for some reason
 		else {
 			echo "Something went wrong:\n";
 			print_r($result);
@@ -147,8 +156,6 @@ function combine_photos($files) {
 }
 
 function upload_photo($file) {
-	//$file = 'photos/manatees.jpg';
-	
 	// get FB access token from settings.ini
 	$config = parse_ini_file(APP_ROOT.'config/settings.ini');
 	$access_token = $config['facebook_access_token'];
@@ -160,8 +167,6 @@ function upload_photo($file) {
 		'source' => '@'.realpath($file),
 		'access_token' => $access_token,
 	);
-	
-	print_r($params);
 
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_URL, $url);
