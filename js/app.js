@@ -72,7 +72,7 @@ App = {
 							
 							// wait a couple seconds and clean up
 							setTimeout(function(){
-								//window.location.reload(); return;
+								window.location.reload(); return;
 								
 								App.timer = 3;
 								App.in_progress = false;
