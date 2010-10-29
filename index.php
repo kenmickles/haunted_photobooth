@@ -40,7 +40,7 @@ $strips = array_slice($strips, 0, 50);
 			<div id="photo-strips">
 				<?php foreach ( $strips as $strip ): ?>
 					<div class="brick">
-						<img src="<?= he($strip) ?>" alt="" />
+						<img src="<?php echo he($strip) ?>" alt="" />
 					</div>
 				<?php endforeach; ?>
 			</div>
