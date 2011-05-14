@@ -4,9 +4,9 @@ body {
 	background-color: #333;
 	margin: 0;
 	padding: 0;
-	background-image: url(../images/bg.png);
-	overflow: hidden;
-/*	background-image: url(http://kenmickles.com/halloween_playlist/images/skull_bg.jpg);*/
+	background-image: url(../images/space_travel.gif);
+/*  background-image: url(../images/space.jpg); */
+  overflow: hidden;
 }
 
 a {
@@ -26,6 +26,7 @@ h2 {
 
 h2#status {
 	color: #d7cc17;
+	text-shadow: 0 1px 0 #000;
 }
 
 .clr {
@@ -34,22 +35,34 @@ h2#status {
 }
 
 #wrapper {
-/*	width: 1000px;*/
+  width: 1000px;
+  margin: auto;
+	background-color: #333;  
+	background-image: url(../images/wood.jpg);	
+	-webkit-box-shadow: 2px 2px 20px #000;
+	min-height: 2000px;
 }
 
 #photo-strips img {
 	width: 150px;
-	-webkit-box-shadow: 1px 1px 20px #000;
+	-webkit-box-shadow: 0px 0px 20px #000;
 }
 
 #main {
 	color: #eee;
-	background-color: #000;
+  background-color: #000;
 	position: relative;
 	padding: 1em;
 	text-align: center;
 	height: 385px;
 	-webkit-box-shadow: 1px 1px 20px #000;	
+	background-image: url(../images/top_bg.jpg);
+}
+
+#main #status {
+  position: absolute;
+  right: 30px;
+  bottom: 25px;
 }
 
 #countdown {

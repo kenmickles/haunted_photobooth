@@ -1,0 +1,5 @@
+/config/*
+/photos/*
+.ftpssh_settings
+*.tmproj
+.DS_Store

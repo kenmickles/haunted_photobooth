@@ -10,7 +10,7 @@ set_time_limit(0);
 //ob_implicit_flush();
 
 // new WebSocketServer( socket address, socket port, callback function )
-$webSocket = new WebSocketServer('127.0.0.1', 8080, 'capture');
+$webSocket = new WebSocketServer('127.0.0.1', 8888, 'capture');
 $webSocket->run();
 
 function capture($user, $count, $server) {
@@ -163,7 +163,7 @@ function upload_photo($file) {
 	$url = 'https://graph.facebook.com/me/photos';
 	
 	$params = array(
-		'message' => "Taken by the Haunted Photo Booth on ".date('F jS, Y')." at ".date('g:ia'),
+		'message' => "Taken in Dave's TARDIS on ".date('F jS, Y')." at ".date('g:ia'),
 		'source' => '@'.realpath($file),
 		'access_token' => $access_token,
 	);

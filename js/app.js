@@ -1,6 +1,6 @@
 App = {
 	socket: null,
-	host: "ws://127.0.0.1:8080/~ken/haunted_photobooth/server.php",
+	host: "ws://127.0.0.1:8888/~ken/tardis/server.php",
 	blank_photo: "http://img.37i.net/pixel_ffffff_0.png",
 	photos_to_take: 3,
 	timer: 3,
@@ -8,9 +8,10 @@ App = {
 	
 	countdown: function(){
 		App.in_progress = true;
-		
+			
 		if ( App.timer == 3 ) {
 			$('#photo-strips').hide();
+			document.getElementById('tardis-sound').play();
 		}
 		
 		if ( App.timer > 0 ) {	
@@ -48,7 +49,7 @@ App = {
 			});
 		});
 		
-		$(document).ready(function(){
+		$(document).ready(function(){		  
 			try {
 				App.socket = new WebSocket(App.host);
 				
@@ -72,8 +73,9 @@ App = {
 							
 							// wait a couple seconds and clean up
 							setTimeout(function(){
-								window.location.reload(); return;
-								
+								//window.location.reload(); return;
+								//document.getElementById('tardis-sound').pause();
+																									
 								App.timer = 3;
 								App.in_progress = false;
 								
@@ -105,7 +107,7 @@ App = {
 				};
 				
 				App.socket.onclose = function(msg){
-					console.log('closed') 
+					console.log('closed');
 				};
 			}
 			catch (ex) {
