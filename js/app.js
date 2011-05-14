@@ -73,7 +73,7 @@ App = {
 							
 							// wait a couple seconds and clean up
 							setTimeout(function(){
-								//window.location.reload(); return;
+								window.location.reload(); return;
 								//document.getElementById('tardis-sound').pause();
 																									
 								App.timer = 3;
