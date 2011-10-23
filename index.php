@@ -2,6 +2,15 @@
 
 require 'header.php';
 
+$action = array_val($_GET, 'action');
+
+switch ( $action ) {
+  case 'take_photo':
+  case 'combine_and_upload':
+    echo $action($_GET['id']);
+    exit;
+}
+
 $strips = array();
 $files = scandir(PHOTO_PATH, 1);
 

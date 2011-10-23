@@ -1,8 +1,7 @@
 App = {
-	socket: null,
-	host: "ws://127.0.0.1:8080/~ken/haunted_photobooth/server.php",
 	blank_photo: "http://img.37i.net/pixel_ffffff_0.png",
 	photos_to_take: 3,
+	photo_id: null,
 	timer: 3,
 	in_progress: false,
 	
@@ -22,14 +21,72 @@ App = {
 		}
 		else {
 			$('#status').text('Say "cheese"');
-			App.take_photo();
+			App.take_photo(1);
 			App.timer = 3;			
 		}
 	},
-	
-	take_photo: function() {
-		App.socket.send(App.photos_to_take);
+		
+	take_photo: function(current_photo) {
+	  console.log('current_photo: ' + current_photo);
+	  // new photo
+	  if ( current_photo == 1 ) {
+	    App.photo_id = new Date().getTime();
+	  }
+
+		$('#flash').fadeIn(800, function(){
+		  $.get('index.php?action=take_photo&id=' + App.photo_id, function(data){
+  	    console.log(data);
+  	    $('#photos').prepend('<img src="' + data.photo_src + '" alt="" />');
+  	  }, 'json');
+  	  
+			$('#photos').show();
+			
+			$(this).fadeOut(1800, function(){
+			  if ( current_photo == App.photos_to_take ) {
+			    App.combine_and_upload();
+			  }
+			  else {
+			    setTimeout(function(){
+			      App.take_photo((current_photo+1));
+			    }, 1000);
+			  }
+			});  	  
+		});
 	},
+	
+	combine_and_upload: function() {
+	  // loading...
+		$('#status').text("Sending photos to Facebook...");				
+		
+	  $.get('index.php?action=combine_and_upload&id=' + App.photo_id, function(data){
+	    console.log(data);
+	    
+      // add new photo strip the the pile	
+			var d = Math.random()*8+1;
+			var $html = $('<div class="brick"><img src="' + data.photo_src + '" alt="" style="-webkit-transform:rotate(-' + d + 'deg);-moz-transform:rotate(-' + d + 'deg);" /></div>');
+										
+			// show success message
+			$('#status').text("Alright! Your photos are on Facebook.");
+			
+			// wait a couple seconds and clean up
+			setTimeout(function(){
+				//window.location.reload(); return;
+				
+				App.timer = 3;
+				App.in_progress = false;
+				
+				var $status = $('#status');
+				$status.text($status.attr('title'));
+																				
+				$('#photos').fadeOut('fast', function(){
+					$('#photos img').remove();							
+					$('#photo-strips').fadeIn();
+					$('#photo-strips').append($html).masonry({appendedContent: $html});															
+				});
+			}, 4000);
+	  }, 'json');
+	  
+	},	
 	
 	init: function(){
 		$(window).load(function(){
@@ -44,75 +101,15 @@ App = {
 				if ( Math.floor(Math.random()*2+1) == 1 ) {
 					d *= -1;
 				}
-				$(img).css('-webkit-transform', 'rotate(-' + d + 'deg)');
+				$(img).css({
+				  '-webkit-transform': 'rotate(-' + d + 'deg)',
+				  '-moz-transform': 'rotate(-' + d + 'deg)'
+				});
 			});
 		});
 		
-		$(document).ready(function(){
-			try {
-				App.socket = new WebSocket(App.host);
-				
-				App.socket.onopen = function(msg){
-					console.log('opened')
-				};
-				
-				App.socket.onmessage = function(msg){
-					console.log('`' + msg.data + '`');
-					var photo = msg.data;
-					
-					if ( photo.match(/.jpg$/) ) {
-						
-						if ( photo.match(/combined/) ) {
-							// add new photo strip the the pile	
-							var d = Math.random()*8+1;
-							var $html = $('<div class="brick"><img src="' + photo + '" alt="" style="-webkit-transform:rotate(-' + d + 'deg)" /></div>');
-														
-							// show success message
-							$('#status').text("Alright! Your photos are on Facebook.");
-							
-							// wait a couple seconds and clean up
-							setTimeout(function(){
-								window.location.reload(); return;
-								
-								App.timer = 3;
-								App.in_progress = false;
-								
-								var $status = $('#status');
-								$status.text($status.attr('title'));
-																								
-								$('#photos').fadeOut('fast', function(){
-									$('#photos img').remove();							
-									$('#photo-strips').fadeIn();
-									$('#photo-strips').append($html).masonry({appendedContent: $html});															
-								});
-							}, 4000);					
-							
-							return;	
-						}
-						
-						$('#photos').prepend('<img src="' + photo + '" alt="" />');
-
-						if ( $('#photos img').length == App.photos_to_take ) {
-							$('#status').text("Sending photos to Facebook...");				
-						}
-					}
-					else {
-						$('#flash').fadeIn(800, function(){
-							$('#photos').show();
-							$(this).fadeOut(1800);
-						});
-					}
-				};
-				
-				App.socket.onclose = function(msg){
-					console.log('closed') 
-				};
-			}
-			catch (ex) {
-				console.log(ex); 
-			}
-			
-			// hide popup when escape key is pressed
+		$(document).ready(function(){			
+			// start taking photos when a number key is pressed
 			$(document).keyup(function(e) {
 				if (App.in_progress) return;
 				
