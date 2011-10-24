@@ -77,7 +77,7 @@ App = {
 				$('#photos').fadeOut('fast', function(){
 					$('#photos img').remove();							
 					$('#photo-strips').fadeIn();
-					$('#photo-strips').append($html).masonry({appendedContent: $html});															
+					$('#photo-strips').append($html).masonry('appended', $html, true);															
 				});
 			}, 4000);
 	  }, 'json');
