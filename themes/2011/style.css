@@ -46,6 +46,7 @@ h2#welcome {
   position: absolute;
   top: 41px;
   left: 20px;
+  opacity: .8;
 }
 
 h2#status {
