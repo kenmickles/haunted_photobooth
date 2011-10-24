@@ -30,7 +30,7 @@ function take_photo($id) {
 	  $_SESSION['spookified_'.$id] = false;
 	}
 	
-	$photo_file = $id.'_'.$_SESSION['photo_number_'.$id].'.jpg';
+	$photo_file = $id.'_'.$_SESSION['photo_number_'.$id].'.jpeg';
 	system(CAPTURE_CMD.' '.PHOTO_PATH.$photo_file);
 	
 	$odds = $_SESSION['spookified_'.$id] ? 8 : 4;
@@ -51,7 +51,7 @@ function combine_and_upload($id) {
   $photo_count = $_SESSION['photo_number_'.$id];
   
   for ( $i = 1; $i <= $photo_count; $i++ ) {
-    $files[] = PHOTO_PATH . $id . '_' . $i . '.jpg';
+    $files[] = PHOTO_PATH . $id . '_' . $i . '.jpeg';
   }
   
   // combine photos into one file and upload
@@ -160,7 +160,7 @@ function combine_photos($files) {
 	ob_end_clean();
 	
 	// write image to file
-	$tmp_file = PHOTO_PATH . 'combined_' . time(). '.jpg';
+	$tmp_file = PHOTO_PATH . 'combined_' . time(). '.jpeg';
 	file_put_contents($tmp_file, $image_data);
 	
 	// and return the file path
