@@ -1,3 +1,4 @@
 .ftpssh_settings
 *.tmproj
 photos/*.jpg
+photos/*.jpeg
