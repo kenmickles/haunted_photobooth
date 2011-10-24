@@ -11,18 +11,13 @@
 
 require 'header.php';
 
-// get Facebook app settings from settings.ini
-$config = parse_ini_file(APP_ROOT.'config.ini');
-$app_id = $config['facebook_app_id'];
-$app_secret = $config['facebook_app_secret'];
-
 // tell Facebook to send us right back here
 $redirect_uri = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'];
 
 // if we've got a code, the user just came back from authorizing the app
 // next, we exchange the code for an access token
 if ( isset($_GET['code']) ) {
-	$url = 'https://graph.facebook.com/oauth/access_token?client_id='.$app_id.'&redirect_uri='.$redirect_uri.'&client_secret='.$app_secret.'&code='.$_GET['code'];
+	$url = 'https://graph.facebook.com/oauth/access_token?client_id='.FACEBOOK_APP_ID.'&redirect_uri='.$redirect_uri.'&client_secret='.FACEBOOK_APP_SECRET.'&code='.$_GET['code'];
 
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_URL, $url);
@@ -42,7 +37,7 @@ if ( isset($_GET['code']) ) {
 }
 // redirect to the Facebook auth dialog
 else {
-	header('Location: https://graph.facebook.com/oauth/authorize?client_id='.$app_id.'&redirect_uri='.$redirect_uri.'&scope=publish_stream,offline_access');
+	header('Location: https://graph.facebook.com/oauth/authorize?client_id='.FACEBOOK_APP_ID.'&redirect_uri='.$redirect_uri.'&scope=publish_stream,offline_access');
 }
 
 ?>

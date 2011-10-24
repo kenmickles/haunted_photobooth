@@ -27,7 +27,6 @@ App = {
 	},
 		
 	take_photo: function(current_photo) {
-	  console.log('current_photo: ' + current_photo);
 	  // new photo
 	  if ( current_photo == 1 ) {
 	    App.photo_id = new Date().getTime();
@@ -35,13 +34,12 @@ App = {
 
 		$('#flash').fadeIn(800, function(){
 		  $.get('index.php?action=take_photo&id=' + App.photo_id, function(data){
-  	    console.log(data);
   	    $('#photos').prepend('<img src="' + data.photo_src + '" alt="" />');
   	  }, 'json');
   	  
 			$('#photos').show();
 			
-			$(this).fadeOut(1800, function(){
+			$(this).fadeOut(2500, function(){
 			  if ( current_photo == App.photos_to_take ) {
 			    App.combine_and_upload();
 			  }
@@ -58,9 +56,7 @@ App = {
 	  // loading...
 		$('#status').text("Sending photos to Facebook...");				
 		
-	  $.get('index.php?action=combine_and_upload&id=' + App.photo_id, function(data){
-	    console.log(data);
-	    
+	  $.get('index.php?action=combine_and_upload&id=' + App.photo_id, function(data){	    
       // add new photo strip the the pile	
 			var d = Math.random()*8+1;
 			var $html = $('<div class="brick"><img src="' + data.photo_src + '" alt="" style="-webkit-transform:rotate(-' + d + 'deg);-moz-transform:rotate(-' + d + 'deg);" /></div>');
