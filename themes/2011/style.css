@@ -19,9 +19,8 @@ a:hover {
 }
 
 h2 {
-	font: normal 22pt chandler-42-regular, serif;
+	font: normal 22pt westsac, serif;
 	text-shadow: 2px 2px 1px #000;
-	letter-spacing: -.05em;
 }
 
 h2 strong {
@@ -29,16 +28,17 @@ h2 strong {
   font-size: 2em;
   display: block;
   text-transform: uppercase;
+  line-height: 1.1em;
 }
 
 h2 em {
   color: #222222;
   font-style: normal;
   text-shadow: 1px 1px 6px #FF7E00;
+  opacity: .8;
 }
 
 h2 small {
-  letter-spacing: -0.25em;
 }
 
 h2#welcome {
@@ -46,7 +46,6 @@ h2#welcome {
   position: absolute;
   top: 41px;
   left: 20px;
-  opacity: .8;
 }
 
 h2#status {
