@@ -12,7 +12,7 @@
 require 'header.php';
 
 // get Facebook app settings from settings.ini
-$config = parse_ini_file(APP_ROOT.'config/settings.ini');
+$config = parse_ini_file(APP_ROOT.'config.ini');
 $app_id = $config['facebook_app_id'];
 $app_secret = $config['facebook_app_secret'];
 

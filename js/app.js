@@ -1,5 +1,5 @@
 App = {
-	blank_photo: "http://img.37i.net/pixel_ffffff_0.png",
+	blank_photo: "/themes/2010/images/pixel.png",
 	photos_to_take: 3,
 	photo_id: null,
 	timer: 3,
