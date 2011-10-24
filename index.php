@@ -15,7 +15,7 @@ switch ( $action ) {
     $files = scandir(PHOTO_PATH, 1);
 
     foreach ( $files as $file ) {
-    	if ( preg_match('/^combined_(.*)\.jpg$/', $file) ) {
+    	if ( preg_match('/^combined_(.*)\.(jpg|jpeg)$/', $file) ) {
     		$strips[] = 'photos/'.$file;
     	}
     }
