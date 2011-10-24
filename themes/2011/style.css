@@ -32,8 +32,9 @@ h2 strong {
 }
 
 h2 em {
+  color: #222222;
   font-style: normal;
-  color: #a12323;
+  text-shadow: 1px 1px 6px #FF7E00;
 }
 
 h2 small {
