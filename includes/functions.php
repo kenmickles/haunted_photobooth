@@ -57,16 +57,21 @@ function combine_and_upload($id) {
   // combine photos into one file and upload
 	if ( $combined_file = combine_photos($files) ) {
 		$result = upload_photo($combined_file);
+    $facebook_id = array_val($result, 'id');		
 
-    if ( !isset($result['id']) ) {
+    if ( empty($facebook_id) ) {
       error_log('Failed to upload to Facebook: '.print_r($result, 1));
     }
 		
 		// send the combined file back to the client regardless of success
 		echo json_encode(array(
 		  'photo_src' => PUBLIC_PHOTO_PATH.basename($combined_file),
-		  'facebook_id' => array_val($result, 'id'),
+		  'facebook_id' => $facebook_id
 		));
+		
+    if ( THE_B0XX_URL ) {
+      notify_the_b0xx($facebook_id);
+    }
 		// "Uploaded photo: http://www.facebook.com/photo.php?fbid={$result['id']}\n";
 	}
 }
@@ -187,4 +192,24 @@ function upload_photo($file) {
 	curl_close($ch);
 
 	return json_decode($result, 1);
+}
+
+function notify_the_b0xx($facebook_id) {
+  // fetch photo data from facebook
+  $data = json_decode(file_get_contents('https://graph.facebook.com/' .$facebook_id.'?access_token='.FACEBOOK_ACCESS_TOKEN), 1);
+  $photo_url = $data['images'][1]['source'];
+  
+  // tell the_b0xx about our new photo
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_URL, THE_B0XX_URL);
+	curl_setopt($ch, CURLOPT_HEADER, FALSE);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+	curl_setopt($ch, CURLOPT_POST, TRUE);
+	curl_setopt($ch, CURLOPT_POSTFIELDS, 'photo='.$photo_url);
+	$result = curl_exec($ch);
+	curl_close($ch);
+	
+	error_log($result);
+	
+	return $result;
 }

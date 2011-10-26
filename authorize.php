@@ -37,7 +37,7 @@ if ( isset($_GET['code']) ) {
 }
 // redirect to the Facebook auth dialog
 else {
-	header('Location: https://graph.facebook.com/oauth/authorize?client_id='.FACEBOOK_APP_ID.'&redirect_uri='.$redirect_uri.'&scope=publish_stream,offline_access');
+	header('Location: https://graph.facebook.com/oauth/authorize?client_id='.FACEBOOK_APP_ID.'&redirect_uri='.$redirect_uri.'&scope=publish_stream,offline_access,user_photos');
 }
 
 ?>
