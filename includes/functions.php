@@ -33,7 +33,7 @@ function take_photo($id) {
 	$photo_file = $id.'_'.$_SESSION['photo_number_'.$id].'.jpeg';
 	system(CAPTURE_CMD.' '.PHOTO_PATH.$photo_file);
 	
-	$odds = $_SESSION['spookified_'.$id] ? 8 : 4;
+	$odds = $_SESSION['spookified_'.$id] ? 6 : 3;
 		
 	// 1 in 4 chance of getting a ghost
 	if ( rand(1, $odds) == 3 ) {
