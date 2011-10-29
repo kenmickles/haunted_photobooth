@@ -33,7 +33,7 @@ App = {
 	  }
 
 		$('#flash').fadeIn(800, function(){
-		  $.get('index.php?action=take_photo&id=' + App.photo_id, function(data){
+		  $.get('index.php?action=take_photo&id=' + App.photo_id + '&photos_to_take=' + App.photos_to_take, function(data){
   	    $('#photos').prepend('<img src="' + data.photo_src + '" alt="" />');
   	  }, 'json');
   	  

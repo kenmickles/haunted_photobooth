@@ -6,8 +6,11 @@ $action = array_val($_GET, 'action');
 
 switch ( $action ) {
   case 'take_photo':
+    echo take_photo($_GET['id'], $_GET['photos_to_take']);
+    break;
+  
   case 'combine_and_upload':
-    echo $action($_GET['id']);
+    echo combine_and_upload($_GET['id']);
     exit;
     
   default:

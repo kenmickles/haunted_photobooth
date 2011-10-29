@@ -18,7 +18,7 @@ function pr($var, $return=FALSE) {
 	}
 }
 
-function take_photo($id) {
+function take_photo($id, $max_photos=null) {
 	if ( !isset($_SESSION['photo_number_'.$id]) ) {
 	  $_SESSION['photo_number_'.$id] = 1;
 	}
@@ -33,10 +33,23 @@ function take_photo($id) {
 	$photo_file = $id.'_'.$_SESSION['photo_number_'.$id].'.jpeg';
 	system(CAPTURE_CMD.' '.PHOTO_PATH.$photo_file);
 	
-	$odds = $_SESSION['spookified_'.$id] ? 6 : 3;
+	// unspookified photo set
+	if ( !$_SESSION['spookified_'.$id] ) {
+	  // if the photo hasn't been spookified, it should become more likely each time	  
+	  $odds = 4 - $_SESSION['photo_number_'.$id];
+	  
+	  // if this is the last photo, we need to spookify NOW
+	  if ( $max_photos == $_SESSION['photo_number_'.$id] ) {
+	    $odds = 1;
+	  }
+	}
+	// lesser odds for second spookification
+	else {
+	  $odds = 8;
+	}
 		
 	// 1 in 4 chance of getting a ghost
-	if ( rand(1, $odds) == 3 ) {
+	if ( rand(1, $odds) == 1 ) {
 		spookify(PHOTO_PATH.$photo_file);
 		$_SESSION['spookified_'.$id] = true;
 	}
